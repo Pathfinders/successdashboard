@@ -20,7 +20,7 @@ class LoginForm extends Component {
 
     handleSubmit(){
         console.log('giddyup');
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?userid=1").then(results => {return results.json();}).then(data => {console.log(data.results)})
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?userid=1").then(results => {return results.json();}).then(data => {console.log(data)})
     }
 
     render(){

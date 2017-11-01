@@ -4,6 +4,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Navigation from './components/navigation';
 import LoginForm from './components/loginForm';
+import RequirementTable from './components/requirementTable';
+import ProjectList from './components/projectList';
 
 const pfColors = {
     red: "#c64034",
@@ -42,6 +44,12 @@ const Main = () => (
         </MuiThemeProvider>
         <MuiThemeProvider muiTheme={pfTheme}>
             <LoginForm />
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={pfTheme}>
+            <RequirementTable />
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={pfTheme}>
+            <ProjectList />
         </MuiThemeProvider>
     </div>
 );
