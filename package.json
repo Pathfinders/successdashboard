@@ -6,6 +6,7 @@
     "material-ui": "^0.19.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-onclickoutside": "^6.6.3",
     "react-scripts": "1.0.14",
     "react-tap-event-plugin": "^3.0.2"
   },
