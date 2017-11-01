@@ -3,6 +3,7 @@ import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Navigation from './components/navigation';
+import LoginForm from './components/loginForm';
 
 const pfColors = {
     red: "#c64034",
@@ -35,9 +36,14 @@ const pfTheme = getMuiTheme({
 });
 
 const Main = () => (
-    <MuiThemeProvider muiTheme={pfTheme}>
-        <Navigation />
-    </MuiThemeProvider>
+    <div>
+        <MuiThemeProvider muiTheme={pfTheme}>
+            <Navigation />
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={pfTheme}>
+            <LoginForm />
+        </MuiThemeProvider>
+    </div>
 );
 
 export default Main;
