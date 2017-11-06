@@ -27,54 +27,52 @@ class RequirementTable extends Component {
 
     render(){
         return (<div className="innertube">
-
             <Table fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}>
-    <TableHeader displaySelectAll={this.state.showCheckboxes}
+            fixedFooter={this.state.fixedFooter}
+            selectable={this.state.selectable}
+            multiSelectable={this.state.multiSelectable}>
+            <TableHeader displaySelectAll={this.state.showCheckboxes}
             adjustForCheckbox={this.state.showCheckboxes}
             enableSelectAll={this.state.enableSelectAll}>
-      <TableRow>
-        <TableHeaderColumn>ID</TableHeaderColumn>
-        <TableHeaderColumn>Name</TableHeaderColumn>
-        <TableHeaderColumn>Status</TableHeaderColumn>
-      </TableRow>
-    </TableHeader>
-   <TableBody
+            <TableRow>
+            <TableHeaderColumn>ID</TableHeaderColumn>
+            <TableHeaderColumn>Name</TableHeaderColumn>
+            <TableHeaderColumn>Status</TableHeaderColumn>
+            </TableRow>
+            </TableHeader>
+            <TableBody
             displayRowCheckbox={this.state.showCheckboxes}
             deselectOnClickaway={this.state.deselectOnClickaway}
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
-          >
-      <TableRow>
-        <TableRowColumn>1</TableRowColumn>
-        <TableRowColumn>John Smith</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>2</TableRowColumn>
-        <TableRowColumn>Randal White</TableRowColumn>
-        <TableRowColumn>Unemployed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>3</TableRowColumn>
-        <TableRowColumn>Stephanie Sanders</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>4</TableRowColumn>
-        <TableRowColumn>Steve Brown</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>5</TableRowColumn>
-        <TableRowColumn>Christopher Nolan</TableRowColumn>
-        <TableRowColumn>Unemployed</TableRowColumn>
-      </TableRow>
-    </TableBody>
-  </Table>
-
+            >
+            <TableRow>
+            <TableRowColumn>1</TableRowColumn>
+            <TableRowColumn>John Smith</TableRowColumn>
+            <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+            <TableRowColumn>2</TableRowColumn>
+            <TableRowColumn>Randal White</TableRowColumn>
+            <TableRowColumn>Unemployed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+            <TableRowColumn>3</TableRowColumn>
+            <TableRowColumn>Stephanie Sanders</TableRowColumn>
+            <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+            <TableRowColumn>4</TableRowColumn>
+            <TableRowColumn>Steve Brown</TableRowColumn>
+            <TableRowColumn>Employed</TableRowColumn>
+            </TableRow>
+            <TableRow>
+            <TableRowColumn>5</TableRowColumn>
+            <TableRowColumn>Christopher Nolan</TableRowColumn>
+            <TableRowColumn>Unemployed</TableRowColumn>
+            </TableRow>
+            </TableBody>
+            </Table>
         </div>);
     }
 }

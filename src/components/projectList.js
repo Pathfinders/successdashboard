@@ -15,26 +15,24 @@ class ProjectList extends Component {
 
     render(){
         return (<div className="innertube">
-
-    <List>
-      <Subheader inset={true}>Folders</Subheader>
-      <ListItem
-        leftAvatar={<Avatar icon={<FileFolder />} />}
-        primaryText="Photos"
-        secondaryText="Jan 9, 2014"
-      />
-      <ListItem
-        leftAvatar={<Avatar icon={<FileFolder />} />}
-        primaryText="Recipes"
-        secondaryText="Jan 17, 2014"
-      />
-      <ListItem
-        leftAvatar={<Avatar icon={<FileFolder />} />}
-        primaryText="Work"
-        secondaryText="Jan 28, 2014"
-      />
-    </List>
-
+            <List>
+                <Subheader inset={true}>Folders</Subheader>
+                <ListItem
+                    leftAvatar={<Avatar icon={<FileFolder />} />}
+                    primaryText="Photos"
+                    secondaryText="Jan 9, 2014"
+                />
+                <ListItem
+                    leftAvatar={<Avatar icon={<FileFolder />} />}
+                    primaryText="Recipes"
+                    secondaryText="Jan 17, 2014"
+                />
+                <ListItem
+                    leftAvatar={<Avatar icon={<FileFolder />} />}
+                    primaryText="Work"
+                    secondaryText="Jan 28, 2014"
+                />
+            </List>
         </div>);
     }
 }
