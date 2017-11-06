@@ -4,6 +4,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import onClickOutside from 'react-onclickoutside'
+import { NavLink } from 'react-router-dom';
 
 class Navigation extends Component {
     constructor(props) {
@@ -29,8 +30,10 @@ class Navigation extends Component {
         return (<div>
             <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
             <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
-                <MenuItem>Help</MenuItem>
-                <MenuItem>Home</MenuItem>
+                <MenuItem><NavLink activeClassName="selected" to="/">Home</NavLink></MenuItem>
+                <MenuItem><NavLink activeClassName="selected" to="/login">Login</NavLink></MenuItem>
+                <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
+                <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
             </Drawer>
         </div>);
     }

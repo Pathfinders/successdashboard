@@ -5,7 +5,7 @@ import Navigation from './components/navigation';
 import LoginForm from './components/loginForm';
 import RequirementTable from './components/requirementTable';
 import ProjectList from './components/projectList';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 // Customize colors for our application
@@ -42,21 +42,13 @@ const pfTheme = getMuiTheme({
 const Main = () => (
     <div>
         <MuiThemeProvider muiTheme={pfTheme}>
-            <Navigation />
-        </MuiThemeProvider>
-        <MuiThemeProvider muiTheme={pfTheme}>
             <Router>
-                <Route path='/login' component={LoginForm} />
-            </Router>
-        </MuiThemeProvider>
-        <MuiThemeProvider muiTheme={pfTheme}>
-            <Router>
-                <Route path='/requirements' component={RequirementTable} />
-            </Router>
-        </MuiThemeProvider>
-        <MuiThemeProvider muiTheme={pfTheme}>
-            <Router>
-                <Route path='/projects' component={ProjectList} />
+                <div>
+                    <Navigation />
+                    <Route path='/login' component={LoginForm} />
+                    <Route path='/requirements' component={RequirementTable} />
+                    <Route path='/projects' component={ProjectList} />
+                </div>
             </Router>
         </MuiThemeProvider>
     </div>
