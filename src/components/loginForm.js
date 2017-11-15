@@ -6,8 +6,8 @@ class LoginForm extends Component {
     constructor() {
         super();
         this.state = {
-            username: '1',
-            password: '2',
+            username: '',
+            password: '',
         };
     }
 
@@ -19,17 +19,22 @@ class LoginForm extends Component {
     }
 
     handleSubmit(){
-        console.log('giddyup');
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?userid=1").then(results => {return results.json();}).then(data => {console.log(data)})
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(results => {return results.json();}).then(data => {
+            if(data.userid){
+                console.log('logging in');
+            }else{
+                console.log('wrong password hombre');
+            }
+        })
     }
 
     render(){
-        const { fname, lname, email } = this.state;
+        //const { fname, lname, email } = this.state;
         return (<div className="innertube">
             <form onSubmit={this.handleSubmit}>
                 <div><TextField hintText="Username" floatingLabelText="Username" name="username" type="text" onChange={this.onChange} /></div>
                 <div><TextField hintText="Password" floatingLabelText="Password" name="password" type="password" onChange={this.onChange} /></div>
-                <div><br/><RaisedButton onClick={this.handleSubmit} label="Log In" secondary={true} /></div>
+                <div><br/><RaisedButton onClick={this.handleSubmit.bind(this)} label="Log In" secondary={true} /></div>
             </form>
         </div>);
     }
