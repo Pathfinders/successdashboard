@@ -29,7 +29,6 @@ class Navigation extends Component {
     }
     loggedin = getCookie('loggedin');
     render() {
-        console.log(this.loggedin);
         if(this.loggedin == "true"){
             return (<div>
                 <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
@@ -49,10 +48,10 @@ class Navigation extends Component {
                 </Drawer>
             </div>);
         }
-
     }
 }
 
+// Handle clicks outside of drawer
 var clickOutsideConfig = {
     excludeScrollbar: true
 }

@@ -7,6 +7,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import { getCookie, setCookie } from '../js/global'
 
 class RequirementTable extends Component {
     constructor() {
@@ -24,8 +25,12 @@ class RequirementTable extends Component {
             height: '300px',
         };
     }
-
+    loggedin = getCookie('loggedin');
     render(){
+        if(this.loggedin != "true"){
+            window.location = "/login";
+            return false;
+        }
         return (<div className="innertube">
             <Table fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}

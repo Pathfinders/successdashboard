@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
+import { getCookie, setCookie } from '../js/global'
 
 class ProjectList extends Component {
     constructor() {
@@ -12,8 +12,12 @@ class ProjectList extends Component {
 
         };
     }
-
-    render(){
+    loggedin = getCookie('loggedin');
+    render() {
+        if(this.loggedin != "true"){
+            window.location = "/login";
+            return false;
+        }
         return (<div className="innertube">
             <List>
                 <Subheader inset={true}>Folders</Subheader>

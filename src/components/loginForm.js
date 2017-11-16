@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { getCookie, setCookie } from '../js/global'
 
 class LoginForm extends Component {
     constructor() {
@@ -10,25 +11,22 @@ class LoginForm extends Component {
             password: '',
         };
     }
-
     onChange = (e) => {
         // Because we named the inputs to match their corresponding values in state, it's super easy to update the state
         const state = this.state
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
-
     handleSubmit(){
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(results => {return results.json();}).then(data => {
             if(data.userid){
-                this.setCookie("loggedin", true, 1);
+                setCookie("loggedin", true, 1);
                 window.location = "/projects";
             }else{
-                this.setCookie("loggedin", false, 1);
+                setCookie("loggedin", false, 1);
             }
         })
     }
-
     render(){
         //const { fname, lname, email } = this.state;
         return (<div className="innertube">
