@@ -21,9 +21,10 @@ class LoginForm extends Component {
     handleSubmit(){
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(results => {return results.json();}).then(data => {
             if(data.userid){
-                console.log('logging in');
+                this.setCookie("loggedin", true, 1);
+                window.location = "/projects";
             }else{
-                console.log('wrong password hombre');
+                this.setCookie("loggedin", false, 1);
             }
         })
     }

@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import onClickOutside from 'react-onclickoutside'
 import { NavLink } from 'react-router-dom';
+import { getCookie, setCookie } from '../js/global'
 
 class Navigation extends Component {
     constructor(props) {
@@ -26,16 +27,29 @@ class Navigation extends Component {
     handleClickOutside(evt) {
         this.closeDrawer()
     }
+    loggedin = getCookie('loggedin');
     render() {
-        return (<div>
-            <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
-            <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
-                <MenuItem><NavLink activeClassName="selected" to="/">Home</NavLink></MenuItem>
-                <MenuItem><NavLink activeClassName="selected" to="/login">Login</NavLink></MenuItem>
-                <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
-                <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
-            </Drawer>
-        </div>);
+        console.log(this.loggedin);
+        if(this.loggedin == "true"){
+            return (<div>
+                <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
+                <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
+                    <MenuItem><NavLink activeClassName="selected" to="/">Home</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/login">Login</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
+                </Drawer>
+            </div>);
+        }else{
+            return (<div>
+                <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
+                <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
+                    <MenuItem><NavLink activeClassName="selected" to="/">Home</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/login">Login</NavLink></MenuItem>
+                </Drawer>
+            </div>);
+        }
+
     }
 }
 

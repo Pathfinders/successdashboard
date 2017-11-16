@@ -39,18 +39,23 @@ const pfTheme = getMuiTheme({
 });
 
 // Render the DOM
-const Main = () => (
-    <div>
-        <MuiThemeProvider muiTheme={pfTheme}>
-            <Router>
-                <div>
-                    <Navigation />
-                    <Route path='/login' component={LoginForm} />
-                    <Route path='/requirements' component={RequirementTable} />
-                    <Route path='/projects' component={ProjectList} />
-                </div>
-            </Router>
-        </MuiThemeProvider>
-    </div>
-);
+class Main extends Component {
+    render(){
+        return (
+            <div>
+                <MuiThemeProvider muiTheme={pfTheme}>
+                    <Router>
+                        <div>
+                            <Navigation />
+                            <Route path='/login' component={LoginForm} />
+                            <Route path='/requirements' component={RequirementTable} />
+                            <Route path='/projects' component={ProjectList} />
+                        </div>
+                    </Router>
+                </MuiThemeProvider>
+            </div>
+        )
+    }
+}
+
 export default Main;
