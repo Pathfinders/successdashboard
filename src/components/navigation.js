@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
 import onClickOutside from 'react-onclickoutside'
 import { NavLink } from 'react-router-dom';
-import { getCookie, setCookie } from '../js/global'
+import { getCookie } from '../js/global'
 
 class Navigation extends Component {
     constructor(props) {
@@ -29,7 +28,7 @@ class Navigation extends Component {
     }
     loggedin = getCookie('loggedin');
     render() {
-        if(this.loggedin == "true"){
+        if(this.loggedin === "true"){
             return (<div>
                 <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
                 <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
@@ -52,9 +51,4 @@ class Navigation extends Component {
 }
 
 // Handle clicks outside of drawer
-var clickOutsideConfig = {
-    excludeScrollbar: true
-}
-var EnhancedComponent = onClickOutside(Navigation, clickOutsideConfig);
-
 export default onClickOutside(Navigation);

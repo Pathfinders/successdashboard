@@ -7,7 +7,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie, setCookie } from '../js/global'
+import { getCookie } from '../js/global'
 
 class RequirementTable extends Component {
     constructor() {
@@ -27,7 +27,7 @@ class RequirementTable extends Component {
     }
     loggedin = getCookie('loggedin');
     render(){
-        if(this.loggedin != "true"){
+        if(this.loggedin !== "true"){
             window.location = "/login";
             return false;
         }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { getCookie, setCookie } from '../js/global'
+import { setCookie } from '../js/global';
 
 class LoginForm extends Component {
     constructor() {
@@ -9,6 +9,8 @@ class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
+            data: '',
+            loading: true
         };
     }
     onChange = (e) => {
@@ -18,14 +20,23 @@ class LoginForm extends Component {
         this.setState(state);
     }
     handleSubmit(){
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(results => {return results.json();}).then(data => {
-            if(data.userid){
-                setCookie("loggedin", true, 1);
-                window.location = "/projects";
-            }else{
-                setCookie("loggedin", false, 1);
-            }
-        })
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(
+                results => {
+                    return results.json();
+                }).then(data => {
+                    this.setState({
+                        data: data,
+                        loading: false
+                    });
+                    if(data.userid){
+                        setCookie("loggedin", true, 1);
+                        setCookie("userdata", JSON.stringify(data), 1);
+                        window.location = "/projects";
+                    }else{
+                        setCookie("loggedin", false, 1);
+                    }
+                }
+            )
     }
     render(){
         //const { fname, lname, email } = this.state;
