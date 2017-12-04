@@ -33,7 +33,7 @@ class Navigation extends Component {
                 <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
                 <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
                     <MenuItem><NavLink activeClassName="selected" to="/">Home</NavLink></MenuItem>
-                    <MenuItem><NavLink activeClassName="selected" to="/login">Login</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/login">Logout</NavLink></MenuItem>
                     <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
                     <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
                 </Drawer>

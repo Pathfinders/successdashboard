@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
-import { getCookie } from '../js/global'
+import { getCookie } from '../js/global';
+import { NavLink } from 'react-router-dom';
 
 class ProjectList extends Component {
     constructor() {
@@ -38,13 +39,19 @@ class ProjectList extends Component {
 
     render() {
         var content = this.state.userdata.projects.map((project, index) => {
+            console.log(project);
+            var url = "/requirements/" + project.projectid;
             return (
-                <ListItem
-                    leftAvatar={<Avatar icon={<FileFolder />} />}
-                    primaryText={project.description}
-                    secondaryText={project.projectname}
-                    key={index}
-                />
+                <div>
+                    <NavLink activeClassName="selected" to={url}>
+                    <ListItem
+                        leftAvatar={<Avatar icon={<FileFolder />} />}
+                        primaryText={project.description}
+                        secondaryText={project.projectname}
+                        key={index}
+                    />
+                    </NavLink>
+                </div>
             );
         });
         return (<div className="innertube">
