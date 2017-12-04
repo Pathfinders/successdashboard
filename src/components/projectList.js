@@ -39,7 +39,6 @@ class ProjectList extends Component {
 
     render() {
         var content = this.state.userdata.projects.map((project, index) => {
-            console.log(project);
             var url = "/requirements/" + project.projectid;
             return (
                 <div>

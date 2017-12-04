@@ -23,14 +23,67 @@ class RequirementTable extends Component {
             deselectOnClickaway: false,
             showCheckboxes: false,
             height: '300px',
+            loggedIn: false,
+            projectid: 1,
+            groupid: 1,
+            data: ''
         };
     }
-    loggedin = getCookie('loggedin');
-    render(){
-        if(this.loggedin !== "true"){
+
+    verification() {
+        var loggedin = getCookie('loggedin');
+        if(loggedin !== "true"){
             window.location = "/login";
             return false;
+        }else{
+            this.setState({
+                loggedIn: true,
+            });
         }
+    }
+
+    componentWillMount() {
+        this.verification();
+        this.loadData();
+    }
+
+    loadData() {
+        this.setState({
+            userdata: JSON.parse(getCookie('userdata')),
+        });
+    }
+
+    loadData(){
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/question/readquestions.php?projectid=" + this.state.projectid + "&groupid=" + this.state.groupid).then(
+                results => {
+                    return results.json();
+                }).then(data => {
+                    this.setState({
+                        data: data,
+                        loading: false
+                    });
+
+                }
+            )
+    }
+
+    buildRows(){
+        if(this.state.data){
+            var questions = this.state.data.questions.map((question, index) => {
+                console.log(question);
+                return (
+                    <TableRow>
+                        <TableRowColumn>{index}</TableRowColumn>
+                        <TableRowColumn>{question.question}</TableRowColumn>
+                        <TableRowColumn>"merp"</TableRowColumn>
+                    </TableRow>
+                );
+            });
+            return questions;
+        }
+    }
+
+    render(){
         return (<div className="innertube">
             <Table fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}
@@ -51,31 +104,7 @@ class RequirementTable extends Component {
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
             >
-            <TableRow>
-            <TableRowColumn>1</TableRowColumn>
-            <TableRowColumn>John Smith</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-            <TableRowColumn>2</TableRowColumn>
-            <TableRowColumn>Randal White</TableRowColumn>
-            <TableRowColumn>Unemployed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-            <TableRowColumn>3</TableRowColumn>
-            <TableRowColumn>Stephanie Sanders</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-            <TableRowColumn>4</TableRowColumn>
-            <TableRowColumn>Steve Brown</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-            </TableRow>
-            <TableRow>
-            <TableRowColumn>5</TableRowColumn>
-            <TableRowColumn>Christopher Nolan</TableRowColumn>
-            <TableRowColumn>Unemployed</TableRowColumn>
-            </TableRow>
+            {this.buildRows()}
             </TableBody>
             </Table>
         </div>);
