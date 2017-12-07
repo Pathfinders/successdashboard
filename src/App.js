@@ -49,10 +49,10 @@ class Main extends Component {
                     <Router>
                         <div>
                             <Navigation />
-                            <Route path='/login' component={LoginForm} />
-                            <Route path='/requirements' component={RequirementTable} />
+                            <Route exact path='/' component={LoginForm} />
+                            <Route path='/requirements/:project' component={RequirementTable} />
                             <Route path='/projects' component={ProjectList} />
-                            <Route path='/summary' component={Summary} />
+                            <Route path='/summary/:project' component={Summary} />
                         </div>
                     </Router>
                 </MuiThemeProvider>

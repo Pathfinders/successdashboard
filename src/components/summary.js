@@ -4,15 +4,6 @@ import { Chart } from 'react-google-charts';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-const sampleData = [{
-	    chartType: 'BarChart',
-	    data: [
-	      ['Element', 'Density', { role: 'style' }],
-
-	]
-}
-]
-
 class Summary extends Component {
     constructor() {
         super();
@@ -37,8 +28,6 @@ class Summary extends Component {
         this.verification();
     }
 
-
-
     render() {
         const pieOptions = {
             title: '',
@@ -51,12 +40,10 @@ class Summary extends Component {
                 alignment: 'center',
             },
         };
-
         const style = {
             padding: '1em',
             margin: '1em',
         };
-
         return (
             <div className="wrapper">
                 <h1>Summary</h1>

@@ -10,8 +10,8 @@ import {
 import { getCookie } from '../js/global'
 
 class RequirementTable extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             fixedHeader: true,
             fixedFooter: true,
@@ -24,33 +24,33 @@ class RequirementTable extends Component {
             showCheckboxes: false,
             height: '300px',
             loggedIn: false,
-            projectid: 1,
-            groupid: 1,
+            projectid: props.match.params.project,
+            groupid: '',
             data: ''
         };
     }
 
     verification() {
         var loggedin = getCookie('loggedin');
+        var userdataStr = getCookie('userdata');
+        var userdataObj = JSON.parse(userdataStr);
         if(loggedin !== "true"){
             window.location = "/login";
             return false;
         }else{
             this.setState({
                 loggedIn: true,
+                groupid: userdataObj.groupid,
             });
         }
     }
 
     componentWillMount() {
         this.verification();
-        this.loadData();
     }
 
-    loadData() {
-        this.setState({
-            userdata: JSON.parse(getCookie('userdata')),
-        });
+    componentDidMount() {
+        this.loadData();
     }
 
     loadData(){
@@ -60,17 +60,18 @@ class RequirementTable extends Component {
                 }).then(data => {
                     this.setState({
                         data: data,
-                        loading: false
+                        loading: false,
                     });
-
                 }
             )
     }
 
     buildRows(){
         if(this.state.data){
+            if(!this.state.data.questions){
+                return false;
+            }
             var questions = this.state.data.questions.map((question, index) => {
-                console.log(question);
                 return (
                     <TableRow>
                         <TableRowColumn>{index}</TableRowColumn>
@@ -85,6 +86,8 @@ class RequirementTable extends Component {
 
     render(){
         return (<div className="innertube">
+            <h1>Project Name</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut. Nam finibus varius semper. Cras hendrerit dapibus ligula sed pellentesque. Nam volutpat urna a accumsan ultrices. Proin eleifend volutpat pellentesque. Integer euismod eros risus, ultricies pretium ligula luctus ut. Curabitur et lacinia orci. Fusce congue tellus varius augue faucibus, sed pellentesque urna porttitor. Suspendisse finibus, mi vitae blandit aliquam, ex urna tempus eros, at lobortis eros orci lacinia ex. Fusce rutrum ex eget ligula aliquam commodo. Proin risus turpis, vehicula quis mauris ut, molestie consectetur tellus.</p>
             <Table fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}
             selectable={this.state.selectable}

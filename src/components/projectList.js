@@ -11,17 +11,21 @@ class ProjectList extends Component {
         this.state = {
             loggedIn: false,
             userdata: '',
+            firstname: 'back'
         };
     }
 
     verification() {
         var loggedin = getCookie('loggedin');
+        var userdataStr = getCookie('userdata');
+        var userdataObj = JSON.parse(userdataStr);
         if(loggedin !== "true"){
-            window.location = "/login";
+            window.location = "/";
             return false;
         }else{
             this.setState({
                 loggedIn: true,
+                firstname: userdataObj.firstname,
             });
         }
     }
@@ -43,17 +47,19 @@ class ProjectList extends Component {
             return (
                 <div>
                     <NavLink activeClassName="selected" to={url}>
-                    <ListItem
-                        leftAvatar={<Avatar icon={<FileFolder />} />}
-                        primaryText={project.description}
-                        secondaryText={project.projectname}
-                        key={index}
-                    />
+                        <ListItem
+                            leftAvatar={<Avatar icon={<FileFolder />} />}
+                            primaryText={project.description}
+                            secondaryText={project.projectname}
+                            key={index}
+                        />
                     </NavLink>
                 </div>
             );
         });
         return (<div className="innertube">
+            <h1>Welcome {this.state.firstname}</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut. Nam finibus varius semper. Cras hendrerit dapibus ligula sed pellentesque. Nam volutpat urna a accumsan ultrices. Proin eleifend volutpat pellentesque. Integer euismod eros risus, ultricies pretium ligula luctus ut. Curabitur et lacinia orci. Fusce congue tellus varius augue faucibus, sed pellentesque urna porttitor. Suspendisse finibus, mi vitae blandit aliquam, ex urna tempus eros, at lobortis eros orci lacinia ex. Fusce rutrum ex eget ligula aliquam commodo. Proin risus turpis, vehicula quis mauris ut, molestie consectetur tellus.</p>
             <List>
                 {content}
             </List>

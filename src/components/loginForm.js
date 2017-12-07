@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import { NavLink } from 'react-router-dom';
 import { getCookie, setCookie } from '../js/global';
 
 const paperstyle = {
     padding: '.5em',
     marginTop: '2em'
 };
+
+const BadPW = () => (
+    <Paper style={paperstyle} zDepth={2} >Wrong Password Duder</Paper>
+)
 
 class LoginForm extends Component {
     constructor() {
@@ -38,7 +43,7 @@ class LoginForm extends Component {
 
     message() {
         if(this.state.loggedin) {
-            return <Paper style={paperstyle} zDepth={2} >You're logged in already duder</Paper>;
+            return <Paper style={paperstyle} zDepth={2} >You're logged in already duder. Go check out <NavLink activeClassName="selected" to="/projects">your projects</NavLink>.</Paper>;
         }
     }
 
@@ -67,21 +72,17 @@ class LoginForm extends Component {
 
     render(){
         return (<div className="innertube">
+            <h1>Log In</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut.</p>
             <form onSubmit={this.handleSubmit}>
                 <div><TextField hintText="Username" floatingLabelText="Username" name="username" type="text" onChange={this.onChange} /></div>
                 <div><TextField hintText="Password" floatingLabelText="Password" name="password" type="password" onChange={this.onChange} /></div>
                 <div><br/><RaisedButton onClick={this.handleSubmit.bind(this)} label="Log In" secondary={true} /></div>
             </form>
-            {!this.state.loggedin && this.state.data !== '' && <Child />}
+            {!this.state.loggedin && this.state.data !== '' && <BadPW />}
             <div>{this.message()}</div>
         </div>);
     }
 }
-
-const Child = () => (
-<div className='modal'>
-      Wrong Password Duder
-  </div>
-)
 
 export default LoginForm;
