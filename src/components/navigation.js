@@ -36,6 +36,7 @@ class Navigation extends Component {
                     <MenuItem><NavLink activeClassName="selected" to="/login">Logout</NavLink></MenuItem>
                     <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
                     <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
+                    <MenuItem><NavLink activeClassName="selected" to="/summary">Summary</NavLink></MenuItem>
                 </Drawer>
             </div>);
         }else{
