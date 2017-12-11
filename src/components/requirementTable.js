@@ -26,13 +26,25 @@ class RequirementTable extends Component {
             loggedIn: false,
             projectid: props.match.params.project,
             groupid: '',
-            data: ''
+            question_data: '',
+            answer_data: '',
         };
     }
-
+    
+    get_answer(arr, val){
+        for (var i=0; i < arr.length; i++) {
+            if (arr[i].quesid === val) {
+                return arr[i].ratingid;
+            }
+        }
+    }
+    
     verification() {
         var loggedin = getCookie('loggedin');
         var userdataStr = getCookie('userdata');
+        if(!userdataStr){
+            return false;
+        }
         var userdataObj = JSON.parse(userdataStr);
         if(loggedin !== "true"){
             window.location = "/login";
@@ -50,33 +62,56 @@ class RequirementTable extends Component {
     }
 
     componentDidMount() {
-        this.loadData();
+        this.loadQuestions();
+        this.loadAnswers();
     }
 
-    loadData(){
+    loadQuestions(){
+        this.setState({
+            loading: true,
+        });
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/question/readquestions.php?projectid=" + this.state.projectid + "&groupid=" + this.state.groupid).then(
-                results => {
-                    return results.json();
-                }).then(data => {
-                    this.setState({
-                        data: data,
-                        loading: false,
-                    });
-                }
-            )
+            results => {
+                return results.json();
+            }).then(data => {
+                this.setState({
+                    question_data: data,
+                    loading: false,
+                });
+            }
+        );
+        
+    }
+    
+    loadAnswers(){
+        this.setState({
+            loading: true,
+        });
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=12&yearfor=2017&groupid=" + this.state.groupid).then(
+            results => {
+                return results.json();
+            }).then(data => {
+                this.setState({
+                    answer_data: data,
+                    loading: false,
+                });
+            }
+        );
     }
 
     buildRows(){
-        if(this.state.data){
-            if(!this.state.data.questions){
+        if(this.state.question_data){
+            if(!this.state.question_data || !this.state.answer_data){
                 return false;
             }
-            var questions = this.state.data.questions.map((question, index) => {
+            var questions = this.state.question_data.questions.map((question, index) => {
+                
+                
                 return (
-                    <TableRow>
-                        <TableRowColumn>{index}</TableRowColumn>
+                    <TableRow key={index}>
+                        <TableRowColumn>{question.quesid}</TableRowColumn>
                         <TableRowColumn>{question.question}</TableRowColumn>
-                        <TableRowColumn>"merp"</TableRowColumn>
+                        <TableRowColumn>{this.get_answer(this.state.answer_data,question.quesid)}</TableRowColumn>
                     </TableRow>
                 );
             });

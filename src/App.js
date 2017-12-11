@@ -6,7 +6,6 @@ import LoginForm from './components/loginForm';
 import RequirementTable from './components/requirementTable';
 import Summary from './components/summary';
 import ProjectList from './components/projectList';
-import { getCookie } from './js/global';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
