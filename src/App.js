@@ -49,7 +49,7 @@ class Main extends Component {
                         <div>
                             <Navigation />
                             <Route exact path='/' component={LoginForm} />
-                            <Route path='/requirements/:project' component={RequirementTable} />
+                            <Route path='/requirements/:project/:group' component={RequirementTable} />
                             <Route path='/projects' component={ProjectList} />
                             <Route path='/summary/:project' component={Summary} />
                         </div>

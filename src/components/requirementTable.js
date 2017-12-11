@@ -7,7 +7,19 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie } from '../js/global'
+import { getCookie } from '../js/global';
+import Chip from 'material-ui/Chip';
+
+const pfColors = {
+    red: "#c64034",
+    orange: "#e87800",
+    ltgreen: "#b0c182",
+    dkgreen: "#708043",
+    ltblue: "#c7d5ec",
+    grey: "#77777a",
+    black: "#231f20",
+    white: "#ffffff"
+}
 
 class RequirementTable extends Component {
     constructor(props) {
@@ -25,13 +37,13 @@ class RequirementTable extends Component {
             height: '300px',
             loggedIn: false,
             projectid: props.match.params.project,
-            groupid: '',
+            groupid: props.match.params.group,
             question_data: '',
             answer_data: '',
         };
     }
     
-    get_answer(arr, val){
+    getAnswer(arr, val){
         for (var i=0; i < arr.length; i++) {
             if (arr[i].quesid === val) {
                 return arr[i].ratingid;
@@ -45,14 +57,12 @@ class RequirementTable extends Component {
         if(!userdataStr){
             return false;
         }
-        var userdataObj = JSON.parse(userdataStr);
         if(loggedin !== "true"){
             window.location = "/login";
             return false;
         }else{
             this.setState({
                 loggedIn: true,
-                groupid: userdataObj.groupid,
             });
         }
     }
@@ -99,19 +109,37 @@ class RequirementTable extends Component {
         );
     }
 
+    valueToColor(val){
+        var color = pfColors.black;
+        switch(val) {
+            case '1':
+                color = pfColors.red;
+                break;
+            case '2':
+                color = pfColors.orange;
+                break;
+            case '3':
+                color = pfColors.dkgreen;
+                break;
+            default:
+                color = pfColors.black;
+                break;
+        }
+        return (color);
+    }
+
     buildRows(){
         if(this.state.question_data){
             if(!this.state.question_data || !this.state.answer_data){
                 return false;
             }
             var questions = this.state.question_data.questions.map((question, index) => {
-                
-                
+                var val = this.getAnswer(this.state.answer_data,question.quesid);
                 return (
                     <TableRow key={index}>
                         <TableRowColumn>{question.quesid}</TableRowColumn>
                         <TableRowColumn>{question.question}</TableRowColumn>
-                        <TableRowColumn>{this.get_answer(this.state.answer_data,question.quesid)}</TableRowColumn>
+                        <TableRowColumn><Chip labelColor={pfColors.white} backgroundColor={this.valueToColor(val)}>{val}</Chip></TableRowColumn>
                     </TableRow>
                 );
             });
@@ -120,6 +148,7 @@ class RequirementTable extends Component {
     }
 
     render(){
+
         return (<div className="innertube">
             <h1>Project Name</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut. Nam finibus varius semper. Cras hendrerit dapibus ligula sed pellentesque. Nam volutpat urna a accumsan ultrices. Proin eleifend volutpat pellentesque. Integer euismod eros risus, ultricies pretium ligula luctus ut. Curabitur et lacinia orci. Fusce congue tellus varius augue faucibus, sed pellentesque urna porttitor. Suspendisse finibus, mi vitae blandit aliquam, ex urna tempus eros, at lobortis eros orci lacinia ex. Fusce rutrum ex eget ligula aliquam commodo. Proin risus turpis, vehicula quis mauris ut, molestie consectetur tellus.</p>

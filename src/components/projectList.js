@@ -43,7 +43,7 @@ class ProjectList extends Component {
 
     render() {
         var content = this.state.userdata.projects.map((project, index) => {
-            var url = "/requirements/" + project.projectid;
+            var url = "/summary/" + project.projectid;
             return (
                 <div>
                     <NavLink activeClassName="selected" to={url}>
