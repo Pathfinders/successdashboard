@@ -7,22 +7,14 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie, getAnswer, verification } from '../js/global';
+import { getCookie, getAnswer, getProject, verification, pfColors, user } from '../js/global';
 import Chip from 'material-ui/Chip';
-
-const pfColors = {
-    red: "#c64034",
-    orange: "#e87800",
-    ltgreen: "#b0c182",
-    dkgreen: "#708043",
-    ltblue: "#c7d5ec",
-    grey: "#77777a",
-    black: "#231f20",
-    white: "#ffffff"
-}
+import { NavLink } from 'react-router-dom';
 
 class RequirementTable extends Component {
     constructor(props) {
+        var userdata = user();
+        var projects = userdata.projects;
         super(props);
         this.state = {
             fixedHeader: true,
@@ -36,7 +28,9 @@ class RequirementTable extends Component {
             showCheckboxes: false,
             height: '300px',
             loggedIn: verification(),
+            userdata: userdata,
             projectid: props.match.params.project,
+            projectData: getProject(userdata.projects,props.match.params.project),
             groupid: props.match.params.group,
             question_data: '',
             answer_data: '',
@@ -44,7 +38,7 @@ class RequirementTable extends Component {
     }
 
     componentWillMount() {
-        this.verification();
+
     }
 
     componentDidMount() {
@@ -124,9 +118,9 @@ class RequirementTable extends Component {
     }
 
     render(){
-
         return (<div className="innertube">
-            <h1>Project Name</h1>
+            <h1>Requirements</h1>
+            <h3><NavLink activeClassName="selected" to={'/projects/'}>Projects</NavLink> / <NavLink activeClassName="selected" to={'/summary/' + this.state.projectid}>{this.state.projectData.projectname}</NavLink> / {this.state.groupid === '1' ? 'Client' : 'Pathfinders'}</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut. Nam finibus varius semper. Cras hendrerit dapibus ligula sed pellentesque. Nam volutpat urna a accumsan ultrices. Proin eleifend volutpat pellentesque. Integer euismod eros risus, ultricies pretium ligula luctus ut. Curabitur et lacinia orci. Fusce congue tellus varius augue faucibus, sed pellentesque urna porttitor. Suspendisse finibus, mi vitae blandit aliquam, ex urna tempus eros, at lobortis eros orci lacinia ex. Fusce rutrum ex eget ligula aliquam commodo. Proin risus turpis, vehicula quis mauris ut, molestie consectetur tellus.</p>
             <Table fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getCookie, verification } from '../js/global';
+import { getCookie, getProject, verification, user } from '../js/global';
 import { Chart } from 'react-google-charts';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -8,10 +8,14 @@ import { NavLink } from 'react-router-dom';
 
 class Summary extends Component {
     constructor(props) {
+        var userdata = user();
+        var projects = userdata.projects;
         super(props);
         this.state = {
             loggedIn: verification(),
+            userdata: userdata,
             projectid: props.match.params.project,
+            projectData: getProject(userdata.projects,props.match.params.project),
             clientChartData: [["Task","Hours per Day"],["Bad",6],["Ok",2],["Good",13]],
             pfChartData: [["Task","Hours per Day"],["Bad",4],["Ok",4],["Good",6]]
         };
@@ -42,6 +46,7 @@ class Summary extends Component {
         return (
             <div className="innertube">
                 <h1>Summary</h1>
+                <h3><NavLink activeClassName="selected" to={'/projects/'}>Projects</NavLink> / {this.state.projectData.projectname}</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis eleifend ligula, venenatis molestie mi sagittis sed. Suspendisse nec metus vitae odio vulputate viverra ac aliquam justo. Pellentesque non justo imperdiet, pretium ligula non, accumsan risus. Nam vestibulum vestibulum metus, sit amet volutpat dui porttitor sed. Quisque dolor ligula, lobortis ultricies sem sed, faucibus congue libero. Maecenas egestas congue odio at dapibus. Maecenas a cursus sapien.</p>
                 <table width="100%">
                     <tbody>

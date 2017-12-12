@@ -30,11 +30,7 @@ export function user() {
         return false;
     }
     var userdataObj = JSON.parse(userdataStr);
-    var payload = {
-        firstname: userdataObj.firstname,
-        lastname: userdataObj.lastname,
-    }
-    return payload;
+    return userdataObj;
 }
 
 // Bounce users to login page if logged-in cookie is not set
@@ -48,11 +44,20 @@ export function verification() {
     }
 }
 
-// Helper function to search array of objects
+// Helper function to search array of questions
 export function getAnswer(arr, val){
     for (var i=0; i < arr.length; i++) {
         if (arr[i].quesid === val) {
             return arr[i].ratingid;
+        }
+    }
+}
+
+// Helper function to search array of projects
+export function getProject(arr, val){
+    for (var i=0; i < arr.length; i++) {
+        if (arr[i].projectid === val) {
+            return arr[i];
         }
     }
 }

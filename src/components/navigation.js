@@ -37,17 +37,17 @@ class Navigation extends Component {
             return (<div>
                 <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
                 <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
-                    <MenuItem><NavLink activeClassName="selected" to="/">Logout</NavLink></MenuItem>
-                    <MenuItem><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
-                    <MenuItem><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
-                    <MenuItem><NavLink activeClassName="selected" to="/summary">Summary</NavLink></MenuItem>
+                    <MenuItem onClick={this.toggleDrawer.bind(this)}><NavLink activeClassName="selected" to="/">Logout</NavLink></MenuItem>
+                    <MenuItem onClick={this.toggleDrawer.bind(this)}><NavLink activeClassName="selected" to="/requirements">Requirements</NavLink></MenuItem>
+                    <MenuItem onClick={this.toggleDrawer.bind(this)}><NavLink activeClassName="selected" to="/projects">Projects</NavLink></MenuItem>
+                    <MenuItem onClick={this.toggleDrawer.bind(this)}><NavLink activeClassName="selected" to="/summary">Summary</NavLink></MenuItem>
                 </Drawer>
             </div>);
         }else{
             return (<div>
                 <AppBar title="Success Dashboard" onLeftIconButtonTouchTap={this.toggleDrawer.bind(this)} />
                 <Drawer open={this.state.open} onToggleDrawer={this.toggleDrawer.bind(this)}>
-                    <MenuItem><NavLink activeClassName="selected" to="/">Login</NavLink></MenuItem>
+                    <MenuItem onClick={this.toggleDrawer.bind(this)}><NavLink activeClassName="selected" to="/">Login</NavLink></MenuItem>
                 </Drawer>
             </div>);
         }
