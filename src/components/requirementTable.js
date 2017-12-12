@@ -7,7 +7,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie } from '../js/global';
+import { getCookie, getAnswer, verification } from '../js/global';
 import Chip from 'material-ui/Chip';
 
 const pfColors = {
@@ -35,36 +35,12 @@ class RequirementTable extends Component {
             deselectOnClickaway: false,
             showCheckboxes: false,
             height: '300px',
-            loggedIn: false,
+            loggedIn: verification(),
             projectid: props.match.params.project,
             groupid: props.match.params.group,
             question_data: '',
             answer_data: '',
         };
-    }
-    
-    getAnswer(arr, val){
-        for (var i=0; i < arr.length; i++) {
-            if (arr[i].quesid === val) {
-                return arr[i].ratingid;
-            }
-        }
-    }
-    
-    verification() {
-        var loggedin = getCookie('loggedin');
-        var userdataStr = getCookie('userdata');
-        if(!userdataStr){
-            return false;
-        }
-        if(loggedin !== "true"){
-            window.location = "/login";
-            return false;
-        }else{
-            this.setState({
-                loggedIn: true,
-            });
-        }
     }
 
     componentWillMount() {
@@ -134,7 +110,7 @@ class RequirementTable extends Component {
                 return false;
             }
             var questions = this.state.question_data.questions.map((question, index) => {
-                var val = this.getAnswer(this.state.answer_data,question.quesid);
+                var val = getAnswer(this.state.answer_data,question.quesid);
                 return (
                     <TableRow key={index}>
                         <TableRowColumn>{question.quesid}</TableRowColumn>

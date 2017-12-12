@@ -2,36 +2,21 @@ import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
-import { getCookie } from '../js/global';
+import { getCookie, verification, user } from '../js/global';
 import { NavLink } from 'react-router-dom';
 
 class ProjectList extends Component {
     constructor() {
+        var userdata = user();
         super();
         this.state = {
-            loggedIn: false,
+            loggedIn: verification(),
             userdata: '',
-            firstname: 'back'
+            firstname: userdata.firstname ? userdata.firstname : 'back',
         };
     }
 
-    verification() {
-        var loggedin = getCookie('loggedin');
-        var userdataStr = getCookie('userdata');
-        var userdataObj = JSON.parse(userdataStr);
-        if(loggedin !== "true"){
-            window.location = "/";
-            return false;
-        }else{
-            this.setState({
-                loggedIn: true,
-                firstname: userdataObj.firstname,
-            });
-        }
-    }
-
     componentWillMount() {
-        this.verification();
         this.loadData();
     }
 
@@ -42,6 +27,9 @@ class ProjectList extends Component {
     }
 
     render() {
+        if(!this.state.userdata){
+            return false;
+        }
         var content = this.state.userdata.projects.map((project, index) => {
             var url = "/summary/" + project.projectid;
             return (

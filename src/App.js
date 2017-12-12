@@ -6,20 +6,12 @@ import LoginForm from './components/loginForm';
 import RequirementTable from './components/requirementTable';
 import Summary from './components/summary';
 import ProjectList from './components/projectList';
+import { pfColors } from './js/global';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 // Customize colors for our application
-const pfColors = {
-    red: "#c64034",
-    orange: "#e87800",
-    ltgreen: "#b0c182",
-    dkgreen: "#708043",
-    ltblue: "#c7d5ec",
-    grey: "#77777a",
-    black: "#231f20",
-    white: "#ffffff"
-}
+
 const pfTheme = getMuiTheme({
     palette: {
         primary1Color: pfColors["orange"],

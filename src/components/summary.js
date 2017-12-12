@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getCookie } from '../js/global';
+import { getCookie, verification } from '../js/global';
 import { Chart } from 'react-google-charts';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -10,25 +10,17 @@ class Summary extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false,
-            projectid: props.match.params.project
+            loggedIn: verification(),
+            projectid: props.match.params.project,
+            clientChartData: [["Task","Hours per Day"],["Bad",6],["Ok",2],["Good",13]],
+            pfChartData: [["Task","Hours per Day"],["Bad",4],["Ok",4],["Good",6]]
         };
     }
 
-    verification() {
-        var loggedin = getCookie('loggedin');
-        if(loggedin !== "true"){
-            window.location = "/login";
-            return false;
-        }else{
-            this.setState({
-                loggedIn: true,
-            });
-        }
-    }
+    componentDidMount() {
+        // Load Client Answer Data
 
-    componentWillMount() {
-        this.verification();
+        // Load PF Answer Data
     }
 
     render() {
@@ -61,7 +53,7 @@ class Summary extends Component {
                                     <Chart
                                         chartType="PieChart"
                                         width="100%"
-                                        data={[["Task","Hours per Day"],["Bad",6],["Ok",2],["Good",13]]}
+                                        data={this.state.clientChartData}
                                         options={pieOptions}
                                     />
                                     <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/1'}><RaisedButton label="View Details" secondary={false} fullWidth={true}/></NavLink>
@@ -74,7 +66,7 @@ class Summary extends Component {
                                     <Chart
                                         chartType="PieChart"
                                         width="100%"
-                                        data={[["Task","Hours per Day"],["Bad",4],["Ok",4],["Good",6]]}
+                                        data={this.state.pfChartData}
                                         options={pieOptions}
                                     />
                                     <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/2'}><RaisedButton label="View Details" secondary={false} fullWidth={true}/></NavLink>
