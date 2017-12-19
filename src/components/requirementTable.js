@@ -10,6 +10,7 @@ import {
 import { getCookie, getAnswer, getProject, verification, pfColors, user } from '../js/global';
 import Chip from 'material-ui/Chip';
 import { NavLink } from 'react-router-dom';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 class RequirementTable extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class RequirementTable extends Component {
         this.state = {
             fixedHeader: true,
             fixedFooter: true,
-            stripedRows: true,
+            stripedRows: false,
             showRowHover: false,
             selectable: false,
             multiSelectable: false,
@@ -82,13 +83,13 @@ class RequirementTable extends Component {
     valueToColor(val){
         var color = pfColors.black;
         switch(val) {
-            case '1':
+            case 1:
                 color = pfColors.red;
                 break;
-            case '2':
+            case 2:
                 color = pfColors.orange;
                 break;
-            case '3':
+            case 3:
                 color = pfColors.dkgreen;
                 break;
             default:
@@ -96,6 +97,15 @@ class RequirementTable extends Component {
                 break;
         }
         return (color);
+    }
+
+    renderComments(a){
+        var html = '<ul>';
+        for (var i = 0; i < a.length; i++) {
+            html += "<li>" + a[i]['firstname'] + ' ' + a[i]['lastname'] + ": <em>" + a[i]['comment'] + "</em></li>";
+        }
+        html += "</ul>"
+        return {__html: html};
     }
 
     buildRows(){
@@ -107,9 +117,9 @@ class RequirementTable extends Component {
                 var val = getAnswer(this.state.answer_data,question.quesid);
                 return (
                     <TableRow key={index}>
-                        <TableRowColumn>{question.quesid}</TableRowColumn>
                         <TableRowColumn>{question.question}</TableRowColumn>
-                        <TableRowColumn><Chip labelColor={pfColors.white} backgroundColor={this.valueToColor(val)}>{val}</Chip></TableRowColumn>
+                        <TableRowColumn><Chip labelColor={pfColors.white} backgroundColor={this.valueToColor(val.average)}>{val.average}</Chip></TableRowColumn>
+                        <TableRowColumn><div dangerouslySetInnerHTML={this.renderComments(val.data)} /></TableRowColumn>
                     </TableRow>
                 );
             });
@@ -130,9 +140,9 @@ class RequirementTable extends Component {
             adjustForCheckbox={this.state.showCheckboxes}
             enableSelectAll={this.state.enableSelectAll}>
             <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
+            <TableHeaderColumn>Question</TableHeaderColumn>
+            <TableHeaderColumn>Grade</TableHeaderColumn>
+            <TableHeaderColumn>Reviewers / Comments</TableHeaderColumn>
             </TableRow>
             </TableHeader>
             <TableBody

@@ -16,15 +16,72 @@ class Summary extends Component {
             userdata: userdata,
             projectid: props.match.params.project,
             projectData: getProject(userdata.projects,props.match.params.project),
-            clientChartData: [["Task","Hours per Day"],["Bad",6],["Ok",2],["Good",13]],
-            pfChartData: [["Task","Hours per Day"],["Bad",4],["Ok",4],["Good",6]]
+            clientChartData: '',
+            pfChartData: '',
+            client_answer_data: '',
+            pf_answer_data: ''
         };
     }
 
     componentDidMount() {
-        // Load Client Answer Data
+        this.loadClientAnswers();
+        this.loadPFAnswers();
+    }
 
-        // Load PF Answer Data
+    loadClientAnswers(){
+        var clientChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
+        this.setState({
+            loading: true,
+        });
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=12&yearfor=2017&groupid=" + 1).then(
+            results => {
+                return results.json();
+            }).then(data => {
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].ratingid === '1'){
+                        clientChartData[1][1] ++;
+                    }
+                    if(data[i].ratingid === '2'){
+                        clientChartData[2][1] ++;
+                    }
+                    if(data[i].ratingid === '3'){
+                        clientChartData[3][1] ++;
+                    }
+                }
+                this.setState({
+                    clientChartData: clientChartData,
+                    loading: false,
+                });
+            }
+        );
+    }
+
+    loadPFAnswers(){
+        var pfChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
+        this.setState({
+            loading: true,
+        });
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=12&yearfor=2017&groupid=" + 2).then(
+            results => {
+                return results.json();
+            }).then(data => {
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].ratingid === '1'){
+                        pfChartData[1][1] ++;
+                    }
+                    if(data[i].ratingid === '2'){
+                        pfChartData[2][1] ++;
+                    }
+                    if(data[i].ratingid === '3'){
+                        pfChartData[3][1] ++;
+                    }
+                }
+                this.setState({
+                    pfChartData: pfChartData,
+                    loading: false,
+                });
+            }
+        );
     }
 
     render() {

@@ -46,11 +46,21 @@ export function verification() {
 
 // Helper function to search array of questions
 export function getAnswer(arr, val){
+    var count = 0;
+    var sum = 0;
+    var payload = {
+        average: 0,
+        data: []
+    };
     for (var i=0; i < arr.length; i++) {
         if (arr[i].quesid === val) {
-            return arr[i].ratingid;
+            sum += parseInt(arr[i].ratingid);
+            count ++;
+            payload.data.push(arr[i]);
         }
     }
+    payload.average = Math.round(sum/count);
+    return payload;
 }
 
 // Helper function to search array of projects
