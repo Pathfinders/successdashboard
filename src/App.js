@@ -6,6 +6,7 @@ import LoginForm from './components/loginForm';
 import RequirementTable from './components/requirementTable';
 import Summary from './components/summary';
 import ProjectList from './components/projectList';
+import Survey from './components/survey';
 import { pfColors } from './js/global';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
@@ -42,6 +43,7 @@ class Main extends Component {
                             <Navigation />
                             <Route exact path='/' component={LoginForm} />
                             <Route path='/requirements/:project/:group' component={RequirementTable} />
+                            <Route path='/survey/:project/:group' component={Survey} />
                             <Route path='/projects' component={ProjectList} />
                             <Route path='/summary/:project' component={Summary} />
                         </div>
