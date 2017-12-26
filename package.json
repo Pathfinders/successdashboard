@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "material-ui": "^0.19.4",
+    "material-ui": "^0.20.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-google-charts": "^1.5.5",

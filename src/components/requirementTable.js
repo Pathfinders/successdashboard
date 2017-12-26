@@ -31,6 +31,8 @@ class RequirementTable extends Component {
             loggedIn: verification(),
             userdata: userdata,
             projectid: props.match.params.project,
+            monthfor: props.match.params.monthfor,
+            yearfor: props.match.params.yearfor,
             projectData: getProject(userdata.projects,props.match.params.project),
             groupid: props.match.params.group,
             question_data: '',
@@ -68,7 +70,7 @@ class RequirementTable extends Component {
         this.setState({
             loading: true,
         });
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=12&yearfor=2017&groupid=" + this.state.groupid).then(
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + this.state.monthfor + "&yearfor=" + this.state.yearfor + "&groupid=" + this.state.groupid).then(
             results => {
                 return results.json();
             }).then(data => {

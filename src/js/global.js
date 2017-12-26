@@ -72,6 +72,20 @@ export function getProject(arr, val){
     }
 }
 
+// Helper function to get current year
+export function getYear(){
+    var d = new Date();
+    var n = d.getFullYear();
+    return n;
+}
+
+// Helper function to get current month
+export function getMonth(){
+    var d = new Date();
+    var n = d.getMonth();
+    return n + 1;
+}
+
 // Pathfinders color scheme
 export const pfColors = {
     red: "#c64034",
