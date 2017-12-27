@@ -72,6 +72,15 @@ export function getProject(arr, val){
     }
 }
 
+// Helper function to search array of answers
+export function getAnswer2(arr, val){
+    for (var i=0; i < arr.length; i++) {
+        if (arr[i].quesid === val) {
+            return arr[i];
+        }
+    }
+}
+
 // Helper function to get current year
 export function getYear(){
     var d = new Date();

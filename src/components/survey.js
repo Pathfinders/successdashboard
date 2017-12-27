@@ -7,13 +7,14 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie, getProject, verification, pfColors, user } from '../js/global';
+import { getCookie, getProject, verification, pfColors, user, getMonth, getYear, getAnswer2} from '../js/global';
 import Chip from 'material-ui/Chip';
 import { NavLink } from 'react-router-dom';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
 
 const paperstyle = {
     padding: '.5em',
@@ -37,7 +38,10 @@ class Survey extends Component {
             projectData: getProject(userdata.projects,props.match.params.project),
             groupid: props.match.params.group,
             question_data: '',
-            loading: true
+            loading: true,
+            answer_data: [],
+            month: props.match.params.monthfor ? parseInt(props.match.params.monthfor) : getMonth(),
+            year: props.match.params.yearfor ? parseInt(props.match.params.yearfor) : getYear()
         };
     }
 
@@ -47,6 +51,9 @@ class Survey extends Component {
 
     componentDidMount() {
         this.loadQuestions();
+        this.setState({
+            answer_data: this.loadAnswers(this.state.month,this.state.year,1),
+        });
     }
 
     loadQuestions(){
@@ -66,17 +73,45 @@ class Survey extends Component {
 
     }
 
+    loadAnswers(m,y,g){
+        this.setState({
+            loading: true,
+        });
+        var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + 2).then(function(response) {
+            // Convert to JSON
+            return response.json();
+        }).then(data => {
+                var userdata = [];
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].userid == this.state.userdata.userid){
+                        userdata.push(data[i]);
+                    }
+                };
+                this.setState({
+                    loading: false,
+                    answer_data: userdata
+                })
+            }
+        );
+    }
+
     buildPaper(){
         if(this.state.question_data){
             if(!this.state.question_data){
                 return false;
             }
             var questions = this.state.question_data.questions.map((question, index) => {
+
+                var answer = {};
+                if(this.state.answer_data){
+                    answer = getAnswer2(this.state.answer_data,question.quesid);
+                }
+                console.log(answer.comment);
                 return (
                     <Paper style={paperstyle} zDepth={2} key={index} ><p style={radiostyle}>{question.question}</p>
                         <Divider />
                         <div style={radiostyle}>
-                            <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+                            <RadioButtonGroup name="shipSpeed" defaultSelected="not_light" valueSelected={answer.ratingid}>
                                 <RadioButton
                                 value="1"
                                 label="Bad"
@@ -90,6 +125,7 @@ class Survey extends Component {
                                 label="Good"
                                 />
                             </RadioButtonGroup>
+                            <div><TextField fullWidth={true} floatingLabelText="Additional Comments" name="comment" type="text" defaultValue={answer.comment} /><br/></div>
                         </div>
                     </Paper>
                 );
@@ -99,6 +135,7 @@ class Survey extends Component {
     }
 
     render(){
+        console.log(this.state);
         return (<div className="innertube">
             <h1>Survey</h1>
             <h3><NavLink activeClassName="selected" to={'/projects/'}>Projects</NavLink> / <NavLink activeClassName="selected" to={'/summary/' + this.state.projectid}>{this.state.projectData.projectname}</NavLink> / {this.state.groupid === '1' ? 'Client' : 'Pathfinders'}</h3>

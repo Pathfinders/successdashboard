@@ -21,13 +21,10 @@ class Summary extends Component {
             projectData: getProject(userdata.projects,props.match.params.project),
             clientChartData: [],
             pfChartData: [],
-
             client_answer_data: [],
             pf_answer_data: [],
-
             month: props.match.params.monthfor ? parseInt(props.match.params.monthfor) : getMonth(),
-            year: props.match.params.yearfor ? parseInt(props.match.params.yearfor) : getYear(),
-            value: 1
+            year: props.match.params.yearfor ? parseInt(props.match.params.yearfor) : getYear()
         };
     }
 
