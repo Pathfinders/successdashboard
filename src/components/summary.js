@@ -21,8 +21,10 @@ class Summary extends Component {
             projectData: getProject(userdata.projects,props.match.params.project),
             clientChartData: [],
             pfChartData: [],
-            client_answer_data: '',
-            pf_answer_data: '',
+
+            client_answer_data: [],
+            pf_answer_data: [],
+
             month: props.match.params.monthfor ? parseInt(props.match.params.monthfor) : getMonth(),
             year: props.match.params.yearfor ? parseInt(props.match.params.yearfor) : getYear(),
             value: 1
@@ -57,14 +59,13 @@ class Summary extends Component {
                     if(data[i].ratingid === '3'){
                         clientChartData[3][1] ++;
                     }
-                }
-            console.log(data);
-            console.log(clientChartData);
+                };
+                this.setState({
+                    loading: false,
+                    client_answer_data: data
+                })
             }
         );
-        this.setState({
-            loading: false,
-        });
         return clientChartData;
     }
 
@@ -86,13 +87,14 @@ class Summary extends Component {
                     }
                     if(data[i].ratingid === '3'){
                         pfChartData[3][1] ++;
-                    }
+                    };
+                    this.setState({
+                        loading: false,
+                        pf_answer_data: data
+                    })
                 }
             }
         );
-        this.setState({
-            loading: false,
-        });
         return pfChartData;
     }
 
@@ -151,8 +153,66 @@ class Summary extends Component {
         return years;
     }
 
+    makeButtons(group){
+        // Check if the user is in the group specified
+        var inGroup = false;
+        if(this.state.userdata.groupid == group){
+            inGroup = true;
+        }
+        // Check if the user has taken this survey
+        var takenSurvey = false;
+        var answeredClientQuestions = [];
+        var answeredPFQuestions = [];
+
+        for (var i=0; i < this.state.client_answer_data.length; i++) {
+            if(this.state.client_answer_data[i].userid == this.state.userdata.userid){
+                answeredClientQuestions.push(true);
+            }
+        }
+        for (var i=0; i < this.state.pf_answer_data.length; i++) {
+            if(this.state.pf_answer_data[i].userid == this.state.userdata.userid){
+                answeredPFQuestions.push(true);
+            }
+        }
+        if(group == 1 && answeredClientQuestions.length > 0){
+            takenSurvey = true;
+        }
+        if(group == 2 && answeredPFQuestions.length > 0){
+            takenSurvey = true;
+        }
+        // Check if there is any data from the survey
+        var blankSurvey = true;
+        if(group == 1 && this.state.client_answer_data.length > 0){
+            blankSurvey = false;
+        }
+        if(group == 2 && this.state.pf_answer_data.length > 0){
+            blankSurvey = false;
+        }
+        // Determine which buttons should be active
+        if(!blankSurvey){
+            var button1 = <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton label="View Details" primary={true} fullWidth={true}/></NavLink>;
+        }else{
+            var button1 = <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>;
+        }
+        if(!takenSurvey && inGroup){
+            var button2 = <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>;
+        }else{
+            var button2 = <RaisedButton secondary={true} disabled={true} label="Take Survey" fullWidth={true}/>;
+        }
+        if(takenSurvey && inGroup){
+            var button3 = <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Edit Survey" fullWidth={true}/></NavLink>;
+        }else{
+            var button3 = <RaisedButton secondary={true} disabled={true} label="Edit Survey" fullWidth={true}/>;
+        }
+        return (<div>{button1}{button2}{button3}</div>);
+    }
+
+    inGroup(group){
+
+    }
+
     render() {
-        console.log(this.state)
+        console.log(this.state);
         const pieOptions = {
             title: '',
             pieHole: 0.4,
@@ -187,7 +247,7 @@ class Summary extends Component {
                                         data={this.state.clientChartData}
                                         options={pieOptions}
                                     />
-                                    <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/1/12/2017'}><RaisedButton label="View Details" secondary={false} fullWidth={true}/></NavLink>
+                                    {this.makeButtons(1)}
                                 </Paper>
                             </td>
                             <td width="10">&nbsp;</td>
@@ -201,7 +261,7 @@ class Summary extends Component {
                                         data={this.state.pfChartData}
                                         options={pieOptions}
                                     />
-                                    <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/2/12/2017'}><RaisedButton label="View Details" secondary={false} fullWidth={true}/></NavLink>
+                                    {this.makeButtons(2)}
                                 </Paper>
                             </td>
                         </tr>

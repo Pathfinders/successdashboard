@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
-import { getCookie, getAnswer, verification, user } from '../js/global';
+import { getCookie, getAnswer, verification, user, getMonth, getYear } from '../js/global';
 import { NavLink } from 'react-router-dom';
 
 class ProjectList extends Component {
@@ -25,7 +25,7 @@ class ProjectList extends Component {
             return false;
         }
         var content = this.state.userdata.projects.map((project, index) => {
-            var url = "/summary/" + project.projectid;
+            var url = "/summary/" + project.projectid + "/" + getMonth() + "/" + getYear();
             return (
                 <div>
                     <NavLink activeClassName="selected" to={url}>
