@@ -54,7 +54,7 @@ export function getAnswer(arr, val) {
     };
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].quesid === val) {
-            sum += parseInt(arr[i].ratingid);
+            sum += parseInt(arr[i].ratingid,10);
             count++;
             payload.data.push(arr[i]);
         }

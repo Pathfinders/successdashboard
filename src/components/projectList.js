@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
-import { getCookie, getAnswer, verification, user, getMonth, getYear } from '../js/global';
+import { verification, user, getMonth, getYear } from '../js/global';
 import { NavLink } from 'react-router-dom';
 
 class ProjectList extends Component {

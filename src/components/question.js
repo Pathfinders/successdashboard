@@ -1,16 +1,4 @@
 import React, { Component } from 'react';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import { getCookie, getProject, verification, pfColors, user, getMonth, getYear} from '../js/global';
-import Chip from 'material-ui/Chip';
-import { NavLink } from 'react-router-dom';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Divider from 'material-ui/Divider';
@@ -51,7 +39,7 @@ class Question extends Component {
     }
 
     loadQuestions(p,g) {
-        var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/question/readquestions.php?projectid=" + p + "&groupid=" + g).then(function (response) {
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/question/readquestions.php?projectid=" + p + "&groupid=" + g).then(function (response) {
             // Convert to JSON
             return response.json();
         }).then(data => {
@@ -62,13 +50,13 @@ class Question extends Component {
     }
 
     loadAnswers(p, m, y, g, u) {
-        var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + p + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + g).then(function (response) {
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + p + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + g).then(function (response) {
             // Convert to JSON
             return response.json();
         }).then(data => {
             var user_answer_data = [];
             for (var i = 0; i < data.length; i++) {
-                if (data[i].userid == u) {
+                if (data[i].userid === u) {
                     user_answer_data.push(data[i]);
                 }
             };
@@ -89,7 +77,7 @@ class Question extends Component {
     }
 
     updateEntry(q, m, y, u, r, c) {
-        var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/update.php?quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/update.php?quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
             // Convert to JSON
             return response.json();
         }).then(data => {
@@ -98,7 +86,7 @@ class Question extends Component {
     }
 
     createEntry(p, q, m, y, u, r, c) {
-        var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
             // Convert to JSON
             return response.json();
         }).then(data => {

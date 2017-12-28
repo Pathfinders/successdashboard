@@ -7,15 +7,13 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { getCookie, getAnswer, getProject, verification, pfColors, user } from '../js/global';
+import { getAnswer, getProject, verification, pfColors, user } from '../js/global';
 import Chip from 'material-ui/Chip';
 import { NavLink } from 'react-router-dom';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 class RequirementTable extends Component {
     constructor(props) {
         var userdata = user();
-        var projects = userdata.projects;
         super(props);
         this.state = {
             loading: true,
@@ -32,8 +30,8 @@ class RequirementTable extends Component {
             loggedIn: verification(),
             userdata: userdata,
             projectid: props.match.params.project,
-            monthfor: props.match.params.monthfor,
-            yearfor: props.match.params.yearfor,
+            month: props.match.params.monthfor,
+            year: props.match.params.yearfor,
             projectData: getProject(userdata.projects,props.match.params.project),
             groupid: props.match.params.group,
             question_data: '',
@@ -71,7 +69,7 @@ class RequirementTable extends Component {
         this.setState({
             loading: true,
         });
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + this.state.monthfor + "&yearfor=" + this.state.yearfor + "&groupid=" + this.state.groupid).then(
+        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + this.state.month + "&yearfor=" + this.state.year + "&groupid=" + this.state.groupid).then(
             results => {
                 return results.json();
             }).then(data => {
@@ -133,7 +131,7 @@ class RequirementTable extends Component {
     render(){
         return (<div className="innertube">
             <h1>Requirements</h1>
-            <h3><NavLink activeClassName="selected" to={'/projects/'}>Projects</NavLink> / <NavLink activeClassName="selected" to={'/summary/' + this.state.projectid}>{this.state.projectData.projectname}</NavLink> / {this.state.groupid === '1' ? 'Client' : 'Pathfinders'}</h3>
+            <h3><NavLink activeClassName="selected" to={'/projects/'}>Projects</NavLink> / <NavLink activeClassName="selected" to={'/summary/' + this.state.projectid + '/' + this.state.month + '/' + this.state.year}>{this.state.projectData.projectname}</NavLink> / {this.state.groupid === '1' ? 'Client' : 'Pathfinders'}</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere et libero id ornare. Praesent varius risus dolor, sed varius turpis lobortis ut. Nam finibus varius semper. Cras hendrerit dapibus ligula sed pellentesque. Nam volutpat urna a accumsan ultrices. Proin eleifend volutpat pellentesque. Integer euismod eros risus, ultricies pretium ligula luctus ut. Curabitur et lacinia orci. Fusce congue tellus varius augue faucibus, sed pellentesque urna porttitor. Suspendisse finibus, mi vitae blandit aliquam, ex urna tempus eros, at lobortis eros orci lacinia ex. Fusce rutrum ex eget ligula aliquam commodo. Proin risus turpis, vehicula quis mauris ut, molestie consectetur tellus.</p>
             <Table fixedHeader={this.state.fixedHeader}
             fixedFooter={this.state.fixedFooter}
