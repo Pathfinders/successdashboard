@@ -106,7 +106,6 @@ class Survey extends Component {
                 if(this.state.answer_data){
                     answer = getAnswer2(this.state.answer_data,question.quesid);
                 }
-                console.log(answer.comment);
                 return (
                     <Paper style={paperstyle} zDepth={2} key={index} ><p style={radiostyle}>{question.question}</p>
                         <Divider />

@@ -18,6 +18,7 @@ class RequirementTable extends Component {
         var projects = userdata.projects;
         super(props);
         this.state = {
+            loading: true,
             fixedHeader: true,
             fixedFooter: true,
             stripedRows: false,

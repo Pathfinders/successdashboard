@@ -15,6 +15,7 @@ class Summary extends Component {
         var projects = userdata.projects;
         super(props);
         this.state = {
+            loading: true,
             loggedIn: verification(),
             userdata: userdata,
             projectid: props.match.params.project,
@@ -38,10 +39,10 @@ class Summary extends Component {
     }
 
     loadClientAnswers(m,y){
-        var clientChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
         this.setState({
             loading: true,
-        });
+        })
+        var clientChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + 1).then(
             results => {
                 return results.json();
@@ -67,10 +68,10 @@ class Summary extends Component {
     }
 
     loadPFAnswers(m,y){
-        var pfChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
         this.setState({
             loading: true,
         });
+        var pfChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + 2).then(
             results => {
                 return results.json();
@@ -85,11 +86,11 @@ class Summary extends Component {
                     if(data[i].ratingid === '3'){
                         pfChartData[3][1] ++;
                     };
-                    this.setState({
-                        loading: false,
-                        pf_answer_data: data
-                    })
                 }
+                this.setState({
+                    loading: false,
+                    pf_answer_data: data
+                })
             }
         );
         return pfChartData;
@@ -160,7 +161,6 @@ class Summary extends Component {
         var takenSurvey = false;
         var answeredClientQuestions = [];
         var answeredPFQuestions = [];
-
         for (var i=0; i < this.state.client_answer_data.length; i++) {
             if(this.state.client_answer_data[i].userid == this.state.userdata.userid){
                 answeredClientQuestions.push(true);
@@ -204,12 +204,7 @@ class Summary extends Component {
         return (<div>{button1}{button2}{button3}</div>);
     }
 
-    inGroup(group){
-
-    }
-
     render() {
-        console.log(this.state);
         const pieOptions = {
             title: '',
             pieHole: 0.4,

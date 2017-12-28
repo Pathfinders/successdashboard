@@ -48,6 +48,9 @@ class LoginForm extends Component {
     }
 
     handleSubmit(){
+        this.setState({
+            loading: true
+        });
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/user/read_oneuser.php?username=" + this.state.username + "&password=" + this.state.password).then(
                 results => {
                     return results.json();
@@ -79,7 +82,7 @@ class LoginForm extends Component {
                 <div><TextField hintText="Password" floatingLabelText="Password" name="password" type="password" onChange={this.onChange} /></div>
                 <div><br/><RaisedButton onClick={this.handleSubmit.bind(this)} label="Log In" secondary={true} /></div>
             </form>
-            {!this.state.loggedin && this.state.data !== '' && <BadPW />}
+            {!this.state.loggedin && !this.state.loading && this.state.data !== '' && <BadPW />}
             <div>{this.message()}</div>
         </div>);
     }
