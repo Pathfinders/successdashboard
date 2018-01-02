@@ -18,14 +18,9 @@ class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userid: props.userid,
-            projectid: props.projectid,
-            projectData: props.projectData,
-            groupid: props.groupid,
-            month: props.month,
-            year: props.year,
-            question_data: [],
-            answer_data: []
+            question: props.question,
+            answer: props.answer,
+            exists: false
         };
     }
 
@@ -34,36 +29,7 @@ class Question extends Component {
     }
 
     componentDidMount() {
-        this.loadQuestions(this.state.projectid,this.state.groupid);
-        this.loadAnswers(this.state.projectid, this.state.month, this.state.year, this.state.groupid, this.state.userid);
-    }
-
-    loadQuestions(p,g) {
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/question/readquestions.php?projectid=" + p + "&groupid=" + g).then(function (response) {
-            // Convert to JSON
-            return response.json();
-        }).then(data => {
-            this.setState({
-                question_data: data.questions
-            });
-        });
-    }
-
-    loadAnswers(p, m, y, g, u) {
-        fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + p + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + g).then(function (response) {
-            // Convert to JSON
-            return response.json();
-        }).then(data => {
-            var user_answer_data = [];
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].userid === u) {
-                    user_answer_data.push(data[i]);
-                }
-            };
-            this.setState({
-                answer_data: user_answer_data
-            });
-        });
+        this.entryExists(this.state.answer.quesid,this.state.answer.monthfor,this.state.answer.yearfor,this.state.answer.userid);
     }
 
     entryExists(q, m, y, u) {
@@ -71,7 +37,9 @@ class Question extends Component {
             // Convert to JSON
             return response.json();
         }).then(data => {
-            return data;
+            this.setState({
+                exists: data,
+            })
         });
         return results;
     }
@@ -96,58 +64,51 @@ class Question extends Component {
 
     radioChange(e,v){
         var val = v.split("-");
-        if(val[0]){
-            // Create
-            this.createEntry(this.state.projectid, val[1], this.state.month, this.state.year, this.state.userid, val[0], 'test')
-        }else{
+        if(this.state.exists){
             // Update
-            this.updateEntry(val[1], this.state.month, this.state.year, this.state.userid, val[0], 'test')
+            this.updateEntry(val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], 'test')
+        }else{
+            // Create
+            this.createEntry(this.state.question.projectid, val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], 'test')
         }
     }
 
-    findAnswer(arr, val) {
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].quesid === val) {
-                return arr[i];
-            }
+    textChange(e,v){
+        var val = e.target.name.split("-");
+        var qid = val[1];
+        if(this.state.exists){
+            // Update
+
+        }else{
+            // Create
+
         }
     }
 
     render(){
-        if(this.state.question_data){
-            var questions = this.state.question_data.map((question, index) => {
-                var answer = {};
-                if(this.state.answer_data){
-                    answer = this.findAnswer(this.state.answer_data,question.quesid);
-                }
-                if(!answer){
-                    return false;
-                }
-                return (
-                    <Paper style={paperstyle} zDepth={2} key={index} ><p style={radiostyle}>{question.question}</p>
-                        <Divider />
-                        <div style={radiostyle}>
-                            <RadioButtonGroup onChange={this.radioChange.bind(this)} name={"grade-" + index} defaultSelected={answer ? (answer.ratingid + "-" + question.quesid) : ""}>
-                                <RadioButton
-                                value={"1-" + question.quesid}
-                                label="Bad"
-                                />
-                                <RadioButton
-                                value={"2-" + question.quesid}
-                                label="Ok"
-                                />
-                                <RadioButton
-                                value={"3-" + question.quesid}
-                                label="Good"
-                                />
-                            </RadioButtonGroup>
-                            <div><TextField fullWidth={true} floatingLabelText="Additional Comments" name="comment" type="text" defaultValue={answer ? answer.comment : ""} /><br/></div>
-                        </div>
-                    </Paper>
-                );
-            });
-            return questions;
-        }
+        console.log(this.state);
+        return (
+            <Paper style={paperstyle} zDepth={2}><p style={radiostyle}>{this.state.question.question}</p>
+                <Divider />
+                <div style={radiostyle}>
+                    <RadioButtonGroup onChange={this.radioChange.bind(this)} name={"grade-" + this.state.question.quesid} defaultSelected={this.state.answer ? (this.state.answer.ratingid + "-" + this.state.question.quesid) : ""}>
+                        <RadioButton
+                        value={"1-" + this.state.question.quesid}
+                        label="Bad"
+                        />
+                        <RadioButton
+                        value={"2-" + this.state.question.quesid}
+                        label="Ok"
+                        />
+                        <RadioButton
+                        value={"3-" + this.state.question.quesid}
+                        label="Good"
+                        />
+                    </RadioButtonGroup>
+                    <div><TextField onChange={this.textChange.bind(this)} fullWidth={true} name={"comment-" + this.state.question.quesid} floatingLabelText="Additional Comments" type="text" defaultValue={this.state.answer ? this.state.answer.comment : ""} /><br/></div>
+                </div>
+            </Paper>
+        );
     }
 }
 
