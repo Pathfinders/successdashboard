@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import SummaryChart from '../components/charts';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Summary extends Component {
 
@@ -157,7 +158,15 @@ class Summary extends Component {
                                 {this.state.clientChartData[0] && this.state.client_answer_data[0] ? (
                                     <SummaryChart answer_data={this.state.client_answer_data} data={this.state.clientChartData} projectid={this.state.projectid} month={this.state.month} year={this.state.year} groupid={1} />
                                 ) : (
-                                    <div>meh</div>
+                                    <div>
+                                        <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>
+                                        {parseInt(this.state.userdata.groupid,10) === 1 ? (
+                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + this.state.groupid + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
+                                        ) : (
+                                            <RaisedButton label="Take Survey" primary={true} fullWidth={true} disabled={true}/>
+                                        )}
+                                        <RaisedButton label="Edit Survey" primary={true} fullWidth={true} disabled={true}/>
+                                    </div>
                                 )}
                             </td>
                             <td width="10">&nbsp;</td>
@@ -165,7 +174,15 @@ class Summary extends Component {
                                 {this.state.pfChartData[0] && this.state.pf_answer_data[0] ? (
                                     <SummaryChart answer_data={this.state.pf_answer_data} data={this.state.pfChartData} projectid={this.state.projectid} month={this.state.month} year={this.state.year} groupid={2}  />
                                 ) : (
-                                    <div>beh</div>
+                                    <div>
+                                        <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>
+                                        {parseInt(this.state.userdata.groupid,10) === 2 ? (
+                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + this.state.groupid + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
+                                        ) : (
+                                            <RaisedButton label="Take Survey" primary={true} fullWidth={true} disabled={true}/>
+                                        )}
+                                        <RaisedButton label="Edit Survey" primary={true} fullWidth={true} disabled={true}/>
+                                    </div>
                                 )}
                             </td>
                         </tr>
