@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { getProject, verification, user, getMonth, getYear } from '../js/global';
-import { Chart } from 'react-google-charts';
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
 import { NavLink } from 'react-router-dom';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import SummaryChart from '../components/charts';
 
 class Summary extends Component {
 
@@ -24,16 +21,16 @@ class Summary extends Component {
             client_answer_data: [],
             pf_answer_data: [],
             month: props.match.params.monthfor ? parseInt(props.match.params.monthfor, 10) : getMonth(),
-            year: props.match.params.yearfor ? parseInt(props.match.params.yearfor, 10) : getYear()
+            year: props.match.params.yearfor ? parseInt(props.match.params.yearfor, 10) : getYear(),
         };
     }
 
     componentDidMount() {
         this.setState({
-            pfChartData: this.loadPFAnswers(this.state.month,this.state.year),
+            pfChartData: this.loadPFAnswers(this.state.month,this.state.year)
         });
         this.setState({
-            clientChartData: this.loadClientAnswers(this.state.month,this.state.year),
+            clientChartData: this.loadClientAnswers(this.state.month,this.state.year)
         });
     }
 
@@ -95,7 +92,6 @@ class Summary extends Component {
         return pfChartData;
     }
 
-    /*
     changeYear = (event, index, value) => this.setState({
         year: value,
         pfChartData: this.loadPFAnswers(this.state.month,value),
@@ -107,11 +103,6 @@ class Summary extends Component {
         pfChartData: this.loadPFAnswers(value,this.state.year),
         clientChartData: this.loadClientAnswers(value,this.state.year)
     });
-    */
-
-    changeYear = (event, index, value) => window.location = "/summary/" + this.state.projectid + "/" + this.state.month + "/" + value;
-
-    changeMonth = (event, index, value) => window.location = "/summary/" + this.state.projectid + "/" + value + "/" + this.state.year;
 
     buildMonths(){
         var m = [
@@ -150,76 +141,7 @@ class Summary extends Component {
         return years;
     }
 
-    makeButtons(group){
-        // Check if the user is in the group specified
-        var inGroup = false;
-        if(parseInt(this.state.userdata.groupid,10) === group){
-            inGroup = true;
-        }
-        // Check if the user has taken this survey
-        var takenSurvey = false;
-        var answeredClientQuestions = [];
-        var answeredPFQuestions = [];
-        for (var i=0; i < this.state.client_answer_data.length; i++) {
-            if(this.state.client_answer_data[i].userid === this.state.userdata.userid){
-                answeredClientQuestions.push(true);
-            }
-        }
-        for (var e=0; e < this.state.pf_answer_data.length; e++) {
-            if(this.state.pf_answer_data[e].userid === this.state.userdata.userid){
-                answeredPFQuestions.push(true);
-            }
-        }
-        if(group === 1 && answeredClientQuestions.length > 0){
-            takenSurvey = true;
-        }
-        if(group === 2 && answeredPFQuestions.length > 0){
-            takenSurvey = true;
-        }
-        // Check if there is any data from the survey
-        var blankSurvey = true;
-        if(group === 1 && this.state.client_answer_data.length > 0){
-            blankSurvey = false;
-        }
-        if(group === 2 && this.state.pf_answer_data.length > 0){
-            blankSurvey = false;
-        }
-        // Determine which buttons should be active
-        var button1;
-        if(!blankSurvey){
-            button1 = <NavLink activeClassName="selected" to={'/requirements/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton label="View Details" primary={true} fullWidth={true}/></NavLink>;
-        }else{
-            button1 = <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>;
-        }
-        var button2;
-        if(!takenSurvey && inGroup){
-            button2 = <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>;
-        }else{
-            button2 = <RaisedButton secondary={true} disabled={true} label="Take Survey" fullWidth={true}/>;
-        }
-        var button3;
-        if(takenSurvey && inGroup){
-            button3 = <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + group + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Edit Survey" fullWidth={true}/></NavLink>;
-        }else{
-            button3 = <RaisedButton secondary={true} disabled={true} label="Edit Survey" fullWidth={true}/>;
-        }
-        return (<div>{button1}{button2}{button3}</div>);
-    }
-
     render() {
-        const pieOptions = {
-            title: '',
-            pieHole: 0.4,
-            slices: [{color: '#c64034'},{color: '#e87800'},{color: '#708043'}],
-            pieSliceText: 'none',
-            legend: {
-                position: 'bottom',
-                alignment: 'center',
-            },
-        };
-        const style = {
-            padding: '1em',
-        };
         return (
             <div className="innertube">
                 <h1>Summary</h1>
@@ -232,31 +154,19 @@ class Summary extends Component {
                     <tbody>
                         <tr>
                             <td align="center" width="50%">
-                                <Paper style={style} zDepth={2} >
-                                <h2>Client</h2>
-                                    <Divider />
-                                    <Chart
-                                        chartType="PieChart"
-                                        width="100%"
-                                        data={this.state.clientChartData}
-                                        options={pieOptions}
-                                    />
-                                    {this.makeButtons(1)}
-                                </Paper>
+                                {this.state.clientChartData[0] && this.state.client_answer_data[0] ? (
+                                    <SummaryChart answer_data={this.state.client_answer_data} data={this.state.clientChartData} projectid={this.state.projectid} month={this.state.month} year={this.state.year} groupid={1} />
+                                ) : (
+                                    <div>meh</div>
+                                )}
                             </td>
                             <td width="10">&nbsp;</td>
                             <td align="center" width="50%">
-                                <Paper style={style} zDepth={2} >
-                                    <h2>Pathfinders</h2>
-                                    <Divider />
-                                    <Chart
-                                        chartType="PieChart"
-                                        width="100%"
-                                        data={this.state.pfChartData}
-                                        options={pieOptions}
-                                    />
-                                    {this.makeButtons(2)}
-                                </Paper>
+                                {this.state.pfChartData[0] && this.state.pf_answer_data[0] ? (
+                                    <SummaryChart answer_data={this.state.pf_answer_data} data={this.state.pfChartData} projectid={this.state.projectid} month={this.state.month} year={this.state.year} groupid={2}  />
+                                ) : (
+                                    <div>beh</div>
+                                )}
                             </td>
                         </tr>
                     </tbody>

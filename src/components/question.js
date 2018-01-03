@@ -29,6 +29,7 @@ class Question extends Component {
     }
 
     componentDidMount() {
+        // Check if this has already been answered
         this.entryExists(this.state.answer.quesid,this.state.answer.monthfor,this.state.answer.yearfor,this.state.answer.userid);
     }
 
@@ -66,10 +67,10 @@ class Question extends Component {
         var val = v.split("-");
         if(this.state.exists){
             // Update
-            this.updateEntry(val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], 'test')
+            this.updateEntry(val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], null)
         }else{
             // Create
-            this.createEntry(this.state.question.projectid, val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], 'test')
+            this.createEntry(this.state.question.projectid, val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], null)
         }
     }
 
@@ -86,7 +87,6 @@ class Question extends Component {
     }
 
     render(){
-        console.log(this.state);
         return (
             <Paper style={paperstyle} zDepth={2}><p style={radiostyle}>{this.state.question.question}</p>
                 <Divider />
