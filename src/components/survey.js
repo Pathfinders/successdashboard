@@ -21,29 +21,6 @@ class Survey extends Component {
         };
     }
 
-    componentWillMount() {
-
-    }
-
-    componentDidMount() {
-
-    }
-
-    /*buildPaper(){
-        if(this.state.question_data){
-            var questions = this.state.question_data.questions.map((question, index) => {
-                var answer = {};
-                if(this.state.answer_data){
-                    answer = getAnswer2(this.state.answer_data,question.quesid);
-                }
-                return (
-                    <Question question={question} answer={answer} />
-                );
-            });
-            return questions;
-        }
-    }*/
-
     render(){
         if(!this.state.userdata.userid){
             return false;

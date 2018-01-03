@@ -25,14 +25,6 @@ class SummaryChart extends Component {
         };
     }
 
-    componentDidMount() {
-
-    }
-
-    changeYear = (event, index, value) => window.location = "/summary/" + this.state.projectid + "/" + this.state.month + "/" + value;
-
-    changeMonth = (event, index, value) => window.location = "/summary/" + this.state.projectid + "/" + value + "/" + this.state.year;
-
     buildMonths(){
         var m = [
             'January',

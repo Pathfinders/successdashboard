@@ -6,18 +6,14 @@ import { verification, user, getMonth, getYear } from '../js/global';
 import { NavLink } from 'react-router-dom';
 
 class ProjectList extends Component {
-    constructor() {
+    constructor(props) {
         var userdata = user();
-        super();
+        super(props);
         this.state = {
             loggedIn: verification(),
             userdata: userdata,
             firstname: userdata.firstname ? userdata.firstname : 'back',
         };
-    }
-
-    componentWillMount() {
-
     }
 
     render() {

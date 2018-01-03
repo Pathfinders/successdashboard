@@ -142,7 +142,7 @@ class RequirementTable extends Component {
             enableSelectAll={this.state.enableSelectAll}>
             <TableRow>
             <TableHeaderColumn>Question</TableHeaderColumn>
-            <TableHeaderColumn>Grade</TableHeaderColumn>
+            <TableHeaderColumn>Average Grade</TableHeaderColumn>
             <TableHeaderColumn>Reviewers / Comments</TableHeaderColumn>
             </TableRow>
             </TableHeader>

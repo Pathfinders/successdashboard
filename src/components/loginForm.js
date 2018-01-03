@@ -15,8 +15,9 @@ const BadPW = () => (
 )
 
 class LoginForm extends Component {
-    constructor() {
-        super();
+
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             password: '',

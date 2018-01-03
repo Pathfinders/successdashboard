@@ -24,10 +24,6 @@ class Question extends Component {
         };
     }
 
-    componentWillMount() {
-
-    }
-
     componentDidMount() {
         // Check if this has already been answered
         this.entryExists(this.state.answer.quesid,this.state.answer.monthfor,this.state.answer.yearfor,this.state.answer.userid);

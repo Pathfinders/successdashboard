@@ -16,10 +16,6 @@ class Questions extends Component {
         };
     }
 
-    componentWillMount() {
-
-    }
-
     componentDidMount() {
         this.loadQuestions(this.state.projectid,this.state.groupid);
         this.loadAnswers(this.state.projectid, this.state.month, this.state.year, this.state.groupid, this.state.userid);
