@@ -106,6 +106,8 @@ class Summary extends Component {
     });
 
     buildMonths(){
+        var currentmonth = getMonth();
+        var currentyear = getYear();
         var m = [
             'January',
             'February',
@@ -120,6 +122,11 @@ class Summary extends Component {
             'November',
             'December'
         ];
+        if(this.state.year === currentyear){
+            for (var i=currentmonth; i < 12; i++) {
+                m.splice(i);
+            }
+        }
         var months = m.map((month, index) => {
             return (
                 <MenuItem key={index} value={index + 1} primaryText={month} />
