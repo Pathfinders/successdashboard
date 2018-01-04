@@ -61,14 +61,14 @@ class Questions extends Component {
         if(this.state.question_data){
             var questions = this.state.question_data.map((question, index) => {
                 var answer = {};
-                if(this.state.answer_data){
+                if(this.state.answer_data[index]){
                     answer = this.findAnswer(this.state.answer_data,question.quesid);
-                }
-                if(!answer){
-                    return false;
+                    if(!answer){
+                        return false;
+                    }
                 }
                 return (
-                    <Question key={index} question={question} answer={answer} />
+                    <Question key={index} question={question} answer={answer} month={this.state.month} year={this.state.year} userid={this.state.userid} />
                 );
             });
             return questions;

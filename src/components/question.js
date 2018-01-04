@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import { getMonth, getYear } from '../js/global';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
@@ -20,17 +21,25 @@ class Question extends Component {
         this.state = {
             question: props.question,
             answer: props.answer,
-            exists: false
+            exists: false,
+            month: props.month,
+            year: props.year,
+            userid: props.userid,
         };
     }
 
     componentDidMount() {
         // Check if this has already been answered
-        this.entryExists(this.state.answer.quesid,this.state.answer.monthfor,this.state.answer.yearfor,this.state.answer.userid);
+        if(this.state.answer){
+            this.entryExists(this.state.answer.quesid,this.state.answer.monthfor,this.state.answer.yearfor,this.state.answer.userid);
+        }
     }
 
     entryExists(q, m, y, u) {
         var results = fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/check.php?quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u).then(function (response) {
+            if(response.status !== 200){
+                return false;
+            }
             // Convert to JSON
             return response.json();
         }).then(data => {
@@ -43,6 +52,9 @@ class Question extends Component {
 
     updateEntry(q, m, y, u, r, c) {
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/update.php?quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
+            if(response.status !== 200){
+                return false;
+            }
             // Convert to JSON
             return response.json();
         }).then(data => {
@@ -51,7 +63,11 @@ class Question extends Component {
     }
 
     createEntry(p, q, m, y, u, r, c) {
+        console.log("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c);
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
+            if(response.status !== 200){
+                return false;
+            }
             // Convert to JSON
             return response.json();
         }).then(data => {
@@ -63,10 +79,10 @@ class Question extends Component {
         var val = v.split("-");
         if(this.state.exists){
             // Update
-            this.updateEntry(val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], null)
+            this.updateEntry(val[1], this.state.month, this.state.year, this.state.answer.userid, val[0], null)
         }else{
             // Create
-            this.createEntry(this.state.question.projectid, val[1], this.state.answer.monthfor, this.state.answer.yearfor, this.state.answer.userid, val[0], null)
+            this.createEntry(this.state.question.projectid, val[1], this.state.month, this.state.year, this.state.userid, val[0], null)
         }
     }
 
@@ -75,10 +91,10 @@ class Question extends Component {
         var qid = val[1];
         if(this.state.exists){
             // Update
-
+            this.updateEntry(val[1], this.state.month, this.state.year, this.state.answer.userid, null, v);
         }else{
             // Create
-
+            this.createEntry(this.state.question.projectid, val[1], this.state.month, this.state.year, this.state.userid, null, v)
         }
     }
 

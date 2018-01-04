@@ -168,7 +168,7 @@ class Summary extends Component {
                                     <div>
                                         <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>
                                         {parseInt(this.state.userdata.groupid,10) === 1 ? (
-                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + this.state.groupid + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
+                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/1/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
                                         ) : (
                                             <RaisedButton label="Take Survey" primary={true} fullWidth={true} disabled={true}/>
                                         )}
@@ -184,7 +184,7 @@ class Summary extends Component {
                                     <div>
                                         <RaisedButton label="View Details" primary={true} fullWidth={true} disabled={true}/>
                                         {parseInt(this.state.userdata.groupid,10) === 2 ? (
-                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/' + this.state.groupid + '/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
+                                            <NavLink activeClassName="selected" to={'/survey/' + this.state.projectid + '/2/' + this.state.month + '/' + this.state.year}><RaisedButton secondary={true} label="Take Survey" fullWidth={true}/></NavLink>
                                         ) : (
                                             <RaisedButton label="Take Survey" primary={true} fullWidth={true} disabled={true}/>
                                         )}
