@@ -39,7 +39,7 @@ class Summary extends Component {
         this.setState({
             loading: true,
         })
-        var clientChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
+        var clientChartData = [["Task","Hours per Day"],["Get Fixed",0],["Needs Work",0],["Achieved",0]];
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + 1).then(
             results => {
                 return results.json();
@@ -68,7 +68,7 @@ class Summary extends Component {
         this.setState({
             loading: true,
         });
-        var pfChartData = [["Task","Hours per Day"],["Bad",0],["Ok",0],["Good",0]];
+        var pfChartData = [["Task","Hours per Day"],["Get Fixed",0],["Needs Work",0],["Achieved",0]];
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/tallyentries.php?projectid=" + this.state.projectid + "&monthfor=" + m + "&yearfor=" + y + "&groupid=" + 2).then(
             results => {
                 return results.json();

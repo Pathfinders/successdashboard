@@ -63,9 +63,7 @@ class Questions extends Component {
                 var answer = {};
                 if(this.state.answer_data[index]){
                     answer = this.findAnswer(this.state.answer_data,question.quesid);
-                    if(!answer){
-                        return false;
-                    }
+
                 }
                 return (
                     <Question key={index} question={question} answer={answer} month={this.state.month} year={this.state.year} userid={this.state.userid} />

@@ -21,7 +21,7 @@ class Question extends Component {
         this.state = {
             question: props.question,
             answer: props.answer,
-            exists: false,
+            exists: true,
             month: props.month,
             year: props.year,
             userid: props.userid,
@@ -63,7 +63,6 @@ class Question extends Component {
     }
 
     createEntry(p, q, m, y, u, r, c) {
-        console.log("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c);
         fetch("http://www.successdashboard.com.php7-34.lan3-1.websitetestlink.com/api/entries/create.php?projectid=" + p + "&quesid=" + q + "&monthfor=" + m + "&yearfor=" + y + "&userid=" + u + "&ratingid=" + r + "&comment=" + c).then(function (response) {
             if(response.status !== 200){
                 return false;
@@ -71,6 +70,9 @@ class Question extends Component {
             // Convert to JSON
             return response.json();
         }).then(data => {
+            this.setState({
+                exists: data,
+            })
             return data;
         });
     }
@@ -79,7 +81,7 @@ class Question extends Component {
         var val = v.split("-");
         if(this.state.exists){
             // Update
-            this.updateEntry(val[1], this.state.month, this.state.year, this.state.answer.userid, val[0], null)
+            this.updateEntry(val[1], this.state.month, this.state.year, this.state.userid, val[0], null)
         }else{
             // Create
             this.createEntry(this.state.question.projectid, val[1], this.state.month, this.state.year, this.state.userid, val[0], null)
@@ -91,7 +93,7 @@ class Question extends Component {
         var qid = val[1];
         if(this.state.exists){
             // Update
-            this.updateEntry(val[1], this.state.month, this.state.year, this.state.answer.userid, null, v);
+            this.updateEntry(val[1], this.state.month, this.state.year, this.state.userid, null, v);
         }else{
             // Create
             this.createEntry(this.state.question.projectid, val[1], this.state.month, this.state.year, this.state.userid, null, v)
@@ -99,6 +101,9 @@ class Question extends Component {
     }
 
     render(){
+        if(!this.state.question){
+            return false;
+        }
         return (
             <Paper style={paperstyle} zDepth={2}><p style={radiostyle}>{this.state.question.question}</p>
                 <Divider />
@@ -106,15 +111,15 @@ class Question extends Component {
                     <RadioButtonGroup onChange={this.radioChange.bind(this)} name={"grade-" + this.state.question.quesid} defaultSelected={this.state.answer ? (this.state.answer.ratingid + "-" + this.state.question.quesid) : ""}>
                         <RadioButton
                         value={"1-" + this.state.question.quesid}
-                        label="Bad"
+                        label="Get Fixed"
                         />
                         <RadioButton
                         value={"2-" + this.state.question.quesid}
-                        label="Ok"
+                        label="Needs Work"
                         />
                         <RadioButton
                         value={"3-" + this.state.question.quesid}
-                        label="Good"
+                        label="Achieved"
                         />
                     </RadioButtonGroup>
                     <div><TextField onChange={this.textChange.bind(this)} fullWidth={true} name={"comment-" + this.state.question.quesid} floatingLabelText="Additional Comments" type="text" defaultValue={this.state.answer ? this.state.answer.comment : ""} /><br/></div>

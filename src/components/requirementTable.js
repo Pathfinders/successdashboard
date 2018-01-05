@@ -103,7 +103,9 @@ class RequirementTable extends Component {
     renderComments(a){
         var html = '<ul>';
         for (var i = 0; i < a.length; i++) {
-            html += "<li>" + a[i]['firstname'] + ' ' + a[i]['lastname'] + ": <em>" + a[i]['comment'] + "</em></li>";
+            if(a[i]['comment'] !== 'null'){
+                html += "<li>" + a[i]['firstname'] + ' ' + a[i]['lastname'] + ": <em>" + a[i]['comment'] + "</em></li>";
+            }
         }
         html += "</ul>"
         return {__html: html};
@@ -116,6 +118,10 @@ class RequirementTable extends Component {
             }
             var questions = this.state.question_data.questions.map((question, index) => {
                 var val = getAnswer(this.state.answer_data,question.quesid);
+                if(isNaN(val.average)){
+                    return false;
+                }
+                console.log(val.average);
                 return (
                     <TableRow key={index}>
                         <TableRowColumn>{question.question}</TableRowColumn>
